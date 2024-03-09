@@ -3,8 +3,7 @@ import React from 'react';
 import store from '../store';
 import lobbySlice from "../lobbySlice";
 
-// export const socket = io.connect('https://royalgamesserver.onrender.com');
-export const socket = io.connect('http://localhost:3000');
+export const socket = io.connect('https://royalgamesserver.onrender.com');
 export const SocketContext = React.createContext();
 
 socket.on('connect', () => {
