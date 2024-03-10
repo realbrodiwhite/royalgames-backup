@@ -1,0 +1,10 @@
+{
+        "name": "client-server-app",
+        "dependencies": {
+            "client": "file:client", 
+            "server": "file:server"
+        },
+        "scripts": {
+            "start": "node server.js"
+        }
+}
