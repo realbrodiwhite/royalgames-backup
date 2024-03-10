@@ -1,0 +1,56 @@
+const express = require('express');
+const path = require('path')
+const { buildClient } = require('./client');
+const { Server } = require('./server');
+
+const express = require('express');
+
+class Server {
+  constructor() {
+    const port = process.env.PORT || 10000;
+    const app = express();
+    const http = require('http');
+    const server = http.createServer(app);
+    const SocketIo = require("socket.io");
+    const io = new SocketIo.Server(server, {
+      cors: {
+        origin: "*",
+      },
+    });
+    
+    app.use(express.static(path.join(__dirname, 'client/build')));
+
+    app.use(express.static(__dirname + '/public'));
+
+    app.get('/', (req, res) => {
+      res.sendFile(__dirname + '/public/index.html');
+    });
+
+    app.use((req, res) => {
+      res.sendFile(__dirname + '/public/index.html');
+    });
+
+    io.on('connection', (socket) => {
+      console.log('a user connected');
+    });
+
+    this.app = app;
+    this.server = server;
+    this.io = io;
+    this.port = port;
+  }
+
+  start() {
+    this.server.listen(this.port, () => {
+      console.log(`Example app listening on port ${this.port}`)
+    });
+
+    return this.io;
+  }
+}
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
+module.exports = Server;
